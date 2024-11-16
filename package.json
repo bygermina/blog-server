@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "cross-env NODE_ENV=development node .\\src\\server.js",
+    "start:prod": "cross-env NODE_ENV=production node ./src/server.js &"
+  },
+  "keywords": [],
+  "author": "Kseniya Liubachka",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "express": "^4.21.0"
+  }
+}
