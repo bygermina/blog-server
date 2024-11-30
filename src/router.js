@@ -22,12 +22,12 @@ router.get(`${routes.user}/:id`, UserController.getUser);
 router.post(routes.user, UserController.createUser);
 router.patch(`${routes.user}/:id`, UserController.updateUser);
 
-router.get(`${routes.article}/:id`, ArticleController.getUser);
-router.post(routes.article, ArticleController.createUser);
-router.patch(`${routes.article}/:id`, ArticleController.updateUser);
+router.get(`${routes.article}/:id`, ArticleController.getArticle);
+router.post(routes.article, ArticleController.createArticle);
+router.patch(`${routes.article}/:id`, ArticleController.updateArticle);
 
 router.get(`${routes.rating}/:id`, RatingController.getRating);
-router.post(routes.rating, RatingController.createUser);
+router.post(routes.rating, RatingController.createRating);
 
 router.post(routes.login, Authorization.login);
 router.post(routes.logout, Authorization.logout);
@@ -35,6 +35,6 @@ router.post(routes.logout, Authorization.logout);
 router.get(`${routes.profile}/:id`, ProfileController.getProfile);
 router.put(`${routes.profile}/:id`, ProfileController.updateProfile);
 
-router.get();
+//router.get();
 
 module.exports = router;

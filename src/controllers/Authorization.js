@@ -8,4 +8,4 @@ class Authorization {
   }
 }
 
-module.exports = new Authorization();
+module.exports = Authorization;
