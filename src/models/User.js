@@ -1,14 +1,37 @@
-const { Schema, model } = require('mongoose');
+const { DataTypes } = require('sequelize');
+const bcrypt = require('bcryptjs');
 
-const User = new Schema(
+const sequelize = require('../shared/config/db');
+
+const User = sequelize.define(
+  'User',
   {
-    email: { type: String, unique: true, required: true },
-    password: { type: String, required: true },
-    roles: [{ type: String, ref: 'Role' }],
+    username: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    roles: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
   },
   {
     timestamps: true,
+    hooks: {
+      beforeCreate: async (user) => {
+        user.password = await bcrypt.hash(user.password, 10);
+      },
+    },
   },
 );
 
-module.exports = model('User', User);
+User.prototype.validPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+module.exports = User;

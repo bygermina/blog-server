@@ -1,11 +1,41 @@
+const jwt = require('jsonwebtoken');
+
+const User = require('../models/User');
+
+const secret = process.env.SECRET;
+
 class Authorization {
-  static async login(req, res) {
-    const { username, password } = req.body;
+  async register(req, res) {
+    try {
+      const { username, password, roles } = req.body;
+      const user = await User.create({ username, password, roles: ['viewer'] });
+
+      res.status(201).json(user);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
   }
 
-  static async logout(req, res) {
-    const { username } = req.body;
+  async login(req, res) {
+    try {
+      const { username, password } = req.body;
+      const user = await User.findOne({ where: { username } });
+
+      console.log('roles', user.roles);
+
+      if (!user || !(await user.validPassword(password))) {
+        return res.status(401).json({ error: 'Неправильный логин или пароль' });
+      }
+
+      const token = jwt.sign({ id: user.id, roles: user.roles }, secret, {
+        expiresIn: '24h',
+      });
+
+      res.json({ token });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
   }
 }
 
-module.exports = Authorization;
+module.exports = new Authorization();
