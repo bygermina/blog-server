@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
 
 const router = require('./router');
 const sequelize = require('./shared/config/db');
@@ -22,7 +23,8 @@ sequelize
   .authenticate()
   .then(() => {
     console.log('Connection to DB success');
-    //return sequelize.sync();
+
+    return sequelize.sync();
   })
   .then(() => {
     webserver.listen(PORT, () => {

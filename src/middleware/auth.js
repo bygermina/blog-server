@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const secret = process.env.SECRET;
 
@@ -13,7 +14,7 @@ exports.authenticate = (req, res, next) => {
 
   jwt.verify(token, secret, (err, decoded) => {
     if (err) {
-      return res.status(401).json({ error: unauthorized_error });
+      return res.status(401).json({ error: unauthorized_error + 1 });
     }
 
     req.userId = decoded.id;
@@ -25,8 +26,8 @@ exports.authenticate = (req, res, next) => {
 
 exports.authorize = (roles) => {
   return (req, res, next) => {
-    if (!roles.includes(req.userRoles)) {
-      return res.status(403).json({ error: unauthorized_error });
+    if (!req.userRoles.some((role) => roles.includes(role))) {
+      return res.status(403).json({ error: unauthorized_error + 2 });
     }
 
     next();

@@ -1,25 +1,92 @@
+const Article = require('../models/Article');
+
 class ArticleController {
-  getArticle = (req, res) => {
-    const articleId = req.params.id;
+  async getArticle(req, res) {
+    try {
+      const articleId = req.params.id;
+      const article = await Article.findByPk(articleId);
 
-    res.send(`Article ID: ${articleId}`);
-  };
+      if (!article) {
+        return res.status(404).json({ error: 'Article not found' });
+      }
 
-  createArticle = (req, res) => {
-    res.send('Article created');
-  };
+      res.status(200).json(article);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
 
-  updateArticle = (req, res) => {
-    const articleId = req.params.id;
+  async createArticle(req, res) {
+    try {
+      const { title, subtitle, img, views, userId, type, blocks } = req.body;
 
-    res.send(`Article ID: ${articleId}`);
-  };
+      const newArticle = await Article.create({
+        title,
+        subtitle,
+        img,
+        views,
+        userId,
+        type,
+        blocks,
+      });
 
-  getArticles = (req, res) => {
-    //const { _limit, _expand, _page, _sort, _order, q, type } = req.params;
+      res.status(201).json(newArticle);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
 
-    res.send('Articles');
-  };
+  async updateArticle(req, res) {
+    try {
+      const articleId = req.params.id;
+      const { title, subtitle, img, views, userId, type, blocks } = req.body;
+      const article = await Article.findByPk(articleId);
+
+      if (!article) {
+        return res.status(404).json({ error: 'Article not found' });
+      }
+
+      await article.update({
+        title,
+        subtitle,
+        img,
+        views,
+        userId,
+        type,
+        blocks,
+      });
+
+      res.status(200).json(article);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  async getArticles(req, res) {
+    try {
+      const {
+        _limit = 10,
+        _page = 1,
+        _sort = 'createdAt',
+        _order = 'DESC',
+      } = req.query;
+      const offset = (_page - 1) * _limit;
+
+      const articles = await Article.findAndCountAll({
+        limit: parseInt(_limit),
+        offset: parseInt(offset),
+        order: [[_sort, _order]],
+      });
+
+      res.status(200).json({
+        total: articles.count,
+        pages: Math.ceil(articles.count / _limit),
+        data: articles.rows,
+      });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
 }
 
 module.exports = new ArticleController();

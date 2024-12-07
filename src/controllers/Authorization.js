@@ -21,8 +21,6 @@ class Authorization {
       const { username, password } = req.body;
       const user = await User.findOne({ where: { username } });
 
-      console.log('roles', user.roles);
-
       if (!user || !(await user.validPassword(password))) {
         return res.status(401).json({ error: 'Неправильный логин или пароль' });
       }
@@ -31,7 +29,7 @@ class Authorization {
         expiresIn: '24h',
       });
 
-      res.json({ token });
+      res.json({ token, user });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }

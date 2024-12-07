@@ -30,6 +30,7 @@ router.get(`${routes.user}/:id`, UserController.getUser);
 router.post(routes.user, UserController.createUser);
 router.patch(`${routes.user}/:id`, UserController.updateUser);
 
+router.get(routes.article, ArticleController.getArticles);
 router.get(`${routes.article}/:id`, ArticleController.getArticle);
 router.post(
   routes.article,
