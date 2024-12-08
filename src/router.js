@@ -6,6 +6,7 @@ const ArticleController = require('./controllers/Article');
 //const RatingController = require('./controllers/Rating');
 const Authorization = require('./controllers/Authorization');
 const ProfileController = require('./controllers/Profile');
+const ImageController = require('./controllers/Image');
 
 const router = express.Router();
 
@@ -18,6 +19,7 @@ const routes = {
   register: '/register',
   profile: '/profile',
   comment: '/comments',
+  image: '/images',
 };
 
 router.post(routes.login, Authorization.login);
@@ -41,6 +43,14 @@ router.post(
   ArticleController.createArticle,
 );
 router.patch(`${routes.article}/:id`, ArticleController.updateArticle);
+
+router.get(`${routes.image}/:imagename`, ImageController.getImage);
+router.post(
+  `${routes.image}/:imagename`,
+  ImageController.uploadImage,
+  ImageController.createImage,
+);
+//router.put(`${routes.image}/:imagename`, ImageController.createImage);
 
 // router.get(`${routes.rating}/:id`, RatingController.getRating);
 // router.post(routes.rating, RatingController.createRating);
