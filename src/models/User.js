@@ -6,6 +6,10 @@ const sequelize = require('../shared/config/db');
 const User = sequelize.define(
   'User',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
     username: {
       type: DataTypes.STRING,
       unique: true,

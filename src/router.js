@@ -24,7 +24,7 @@ router.post(routes.login, Authorization.login);
 router.post(routes.register, Authorization.register);
 //router.post(routes.logout, Authorization.logout);
 
-router.get(`${routes.profile}/:id`, ProfileController.getProfile);
+router.get(`${routes.profile}/:username`, ProfileController.getProfile);
 router.put(`${routes.profile}/:id`, ProfileController.updateProfile);
 
 router.get(`${routes.user}/:id`, UserController.getUser);

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
+const Profile = require('../models/Profile');
 
 const secret = process.env.SECRET;
 
@@ -9,6 +10,15 @@ class Authorization {
     try {
       const { username, password, roles } = req.body;
       const user = await User.create({ username, password, roles: ['viewer'] });
+
+      await Profile.create({
+        userId: user.id,
+        username,
+        first: '',
+        lastname: '',
+        age: 0,
+        avatar: '',
+      });
 
       res.status(201).json(user);
     } catch (error) {
