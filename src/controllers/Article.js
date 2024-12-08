@@ -38,7 +38,6 @@ class ArticleController {
 
   async updateArticle(req, res) {
     try {
-      //const articleId = req.params.id;
       const { id, title, subtitle, img, views, userId, type, blocks } =
         req.body;
 
