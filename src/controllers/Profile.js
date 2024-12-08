@@ -20,16 +20,19 @@ class ProfileController {
 
   async updateProfile(req, res) {
     try {
-      const { id, username, avatar, first, lastname, age } = req.body;
+      const username = req.params.username;
+      const { avatar, first, lastname, age } = req.body;
 
-      const profile = await Profile.findByPk(id);
+      //TODO update username
+      //username is the same for user and profile and unique value, so if we update it in user, we should update it in profile
+
+      const profile = await Profile.findOne({ where: { username } });
 
       if (!profile) {
         return res.status(404).json({ error: PROFILE_NOT_FOUND });
       }
 
       await profile.update({
-        username,
         avatar,
         first,
         lastname,
