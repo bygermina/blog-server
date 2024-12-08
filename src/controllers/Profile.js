@@ -1,5 +1,7 @@
 const Profile = require('../models/Profile');
 
+const PROFILE_NOT_FOUND = 'Профиль не найден';
+
 class ProfileController {
   async getProfile(req, res) {
     try {
@@ -7,7 +9,7 @@ class ProfileController {
       const profile = await Profile.findOne({ where: { username } });
 
       if (!profile) {
-        return res.status(404).json({ error: 'Profile not found' });
+        return res.status(404).json({ error: PROFILE_NOT_FOUND });
       }
 
       res.status(200).json(profile);
@@ -23,7 +25,7 @@ class ProfileController {
       const profile = await Profile.findByPk(id);
 
       if (!profile) {
-        return res.status(404).json({ error: 'Profile not found' });
+        return res.status(404).json({ error: PROFILE_NOT_FOUND });
       }
 
       await profile.update({
