@@ -10,6 +10,7 @@ const ProfileController = require('./controllers/Profile');
 const router = express.Router();
 
 const routes = {
+  userInfo: '/user-info',
   user: '/users',
   article: '/articles',
   rating: '/article-ratings',
@@ -29,6 +30,7 @@ router.put(`${routes.profile}/:id`, ProfileController.updateProfile);
 router.get(`${routes.user}/:id`, UserController.getUser);
 router.post(routes.user, UserController.createUser);
 router.patch(`${routes.user}/:id`, UserController.updateUser);
+router.get(routes.userInfo, authenticate, UserController.getUserDataByToken);
 
 router.get(routes.article, ArticleController.getArticles);
 router.get(`${routes.article}/:id`, ArticleController.getArticle);

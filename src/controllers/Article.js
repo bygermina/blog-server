@@ -38,9 +38,11 @@ class ArticleController {
 
   async updateArticle(req, res) {
     try {
-      const articleId = req.params.id;
-      const { title, subtitle, img, views, userId, type, blocks } = req.body;
-      const article = await Article.findByPk(articleId);
+      //const articleId = req.params.id;
+      const { id, title, subtitle, img, views, userId, type, blocks } =
+        req.body;
+
+      const article = await Article.findByPk(id);
 
       if (!article) {
         return res.status(404).json({ error: 'Article not found' });
