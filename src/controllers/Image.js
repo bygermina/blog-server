@@ -39,7 +39,7 @@ class ImageController {
           size,
         });
 
-        res.status(200).json(existingImage);
+        res.status(200).json(path);
       } else {
         const { path, mimetype, size } = req.file;
 
@@ -50,7 +50,7 @@ class ImageController {
           size,
         });
 
-        res.status(200).json(newImage);
+        res.status(200).json(path);
       }
     } catch (error) {
       res.status(400).json({ error: error.message });
